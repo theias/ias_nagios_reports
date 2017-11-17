@@ -1,0 +1,6 @@
+Requires: perl-DateTime perl-Text-ASCIITable
+AutoReqProv: no 
+Summary: Periodic things that run against nagios.
+Group: Generic Group
+License: Generic License
+Vendor: Generic Vendor

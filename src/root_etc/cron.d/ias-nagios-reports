@@ -1,0 +1,4 @@
+# Once every day, in the morning
+# 00 06 * * 1-5 root /bin/systemctl status  nagios.service > /dev/null 2>&1 && /opt/IAS/bin/ias-nagios-reports/nagios_down_times.pl 
+# Just before you leave for work on the weekend...
+# 00 15 * * 5 root /bin/systemctl status  nagios.service > /dev/null 2>&1 && /opt/IAS/bin/ias-nagios-reports/nagios_down_times.pl
