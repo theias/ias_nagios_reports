@@ -79,42 +79,52 @@ debug:
 	# LOG_DIR: $(LOG_DIR)
 	# TEMPLATE_DIR $(TEMPLATE_DIR)
 
+package-rpm: clean all install rpmspec rpmbuild
+
+package-deb: clean all install debsetup debbuild
+
+release: test-all
+
+test-all: test test-doc
+
 test:
 	
 	# Sytax checking routines.
 ifneq ("$(wildcard $(SRC_DIR)/bin/*.pl)","")
 	# Running Perl Tests
-	find $(SRC_DIR/bin) -type f \
+	find $(SRC_DIR)/bin -type f \
 		-name '*.pl' \
-	| xargs perl -c 
+	| xargs -r perl -c 
 	
-	find $(SRC_DIR) -type f \
-		-name '*.pl' \
-		-o -name '*.pm' \
-	| xargs podchecker
 endif
 
 ifneq ("$(wildcard $(SRC_DIR)/bin/*.sh)","")
 	# Running Bash Tests
-	find $(SRC_DIR/bin) -type f \
+	find $(SRC_DIR)/bin -type f \
 		-name '*.sh' \
-	| xargs -n1 bash -n 
+	| xargs -r -n1 bash -n 
 	
 endif
 
 ifneq ("$(wildcard $(SRC_DIR)/bin/*.py)","") 
 	# Running Python Tests
-	find $(SRC_DIR/bin) -type f \
+	find $(SRC_DIR)/bin -type f \
 		-name '*.py' \
-	| xargs -n1 python -m py_compile
+	| xargs -r -n1 python -m py_compile
 endif
 
 ifneq ("$(wildcard $(SRC_DIR)/bin/*.rb)","")
 	# Running Ruby Tests
-	find $(SRC_DIR/bin) -type f \
+	find $(SRC_DIR)/bin -type f \
 		-name '*.rb' \
-	| xargs -n1 ruby -c
+	| xargs -r -n1 ruby -c
 endif
+
+test-doc:
+	find $(SRC_DIR) -type f \
+		-name '*.pl' \
+		-o -name '*.pm' \
+	| xargs -r podchecker
 
 builddir:
 	if [ ! -d build ]; then mkdir build; fi;
