@@ -79,7 +79,43 @@ debug:
 	# LOG_DIR: $(LOG_DIR)
 	# TEMPLATE_DIR $(TEMPLATE_DIR)
 
+test:
 	
+	# Sytax checking routines.
+ifneq ("$(wildcard $(SRC_DIR)/bin/*.pl)","")
+	# Running Perl Tests
+	find $(SRC_DIR/bin) -type f \
+		-name '*.pl' \
+	| xargs perl -c 
+	
+	find $(SRC_DIR) -type f \
+		-name '*.pl' \
+		-o -name '*.pm' \
+	| xargs podchecker
+endif
+
+ifneq ("$(wildcard $(SRC_DIR)/bin/*.sh)","")
+	# Running Bash Tests
+	find $(SRC_DIR/bin) -type f \
+		-name '*.sh' \
+	| xargs -n1 bash -n 
+	
+endif
+
+ifneq ("$(wildcard $(SRC_DIR)/bin/*.py)","") 
+	# Running Python Tests
+	find $(SRC_DIR/bin) -type f \
+		-name '*.py' \
+	| xargs -n1 python -m py_compile
+endif
+
+ifneq ("$(wildcard $(SRC_DIR)/bin/*.rb)","")
+	# Running Ruby Tests
+	find $(SRC_DIR/bin) -type f \
+		-name '*.rb' \
+	| xargs -n1 ruby -c
+endif
+
 builddir:
 	if [ ! -d build ]; then mkdir build; fi;
 
